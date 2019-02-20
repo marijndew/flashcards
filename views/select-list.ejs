@@ -1,0 +1,13 @@
+<% include ./partials/header%>
+
+<div>
+    <p>Choose your list</p>
+</div>
+<% allLists.forEach((i) => { %>
+<form action="/study-session" method="get">
+    <input class="button" type="submit" value="<%=i.title%>" />
+    <input type="hidden" name="id" value="<%=i.id%>">
+</form>
+<%})%>
+
+<% include ./partials/footer%>
