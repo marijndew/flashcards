@@ -6,13 +6,13 @@
     </div>
     <div>
         <p>
-            <%=item.sideA%>
+            <%=card.sideA%>
         </p>
 
     </div>
     <form action="/study-session" method="post">
         <input type="hidden" name="setId" value="<%=setId%>">
-        <input type="hidden" name="sideA" value="<%=item.sideA%>">
+        <input type="hidden" name="cardId" value="<%=card.id%>">
         <input type="text" name="submitAnswer" placeholder="Your answer">
         <input class="button" type="submit" value="Submit" />
     </form>

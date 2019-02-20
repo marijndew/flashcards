@@ -51,6 +51,7 @@ app.route('/create-list')
 
         evenArray.forEach((i) => {
             let object = {
+                "id": evenArray.indexOf(i) + 1,
                 "sideA": i,
                 "sideB": unevenArray[evenArray.indexOf(i)]
             }
@@ -102,37 +103,41 @@ app.route('/study-session')
             }
         }).then((retrievedList) => {
             let studySet = shuffle(retrievedList.dataValues.content)
-
+            let card = ''
             studySet.forEach((i) => {
-                item = i
+                // include if statement to exclude studied cards
+                card = i
             })
             res.render('study-session.ejs', {
-                item: item,
+                card: card,
                 setTitle: retrievedList.dataValues.title,
                 setId: retrievedList.dataValues.id
             })
         })
     })
     .post((req, res) => {
-        let setId = req.body.setId
-        let currentCard = req.body.sideA
         let studySet = []
+        let sideB = ""
         List.findOne({
             where: {
-                id: setId
+                id: req.body.setId
             }
         }).then((retrievedList) => {
-            let studySet = retrievedList.dataValues.content
-
-            console.log(currentCard)
-            console.log(setId)
-            console.log(studySet)
+            studySet = retrievedList.dataValues.content
+            studySet.forEach((i) => {
+                if (i.id == req.body.cardId) { // why does this only work with == and not ===
+                    sideB = i.sideB
+                }
+            })
+            if (req.body.submitAnswer === sideB) {
+                console.log('good job!')
+                // update card's status in database  
+            } else {
+                console.log('wrong answer!')
+                // update card's status in database  
+            }
+            res.redirect(`/study-session/?id=${req.body.setId}`) // i feel this stuff can be done dynamically
         })
-        /*
-                if (req.body.submitAnswer === studySet.currentCard) {}
-        */
-
-
     })
 
 
