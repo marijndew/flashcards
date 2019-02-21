@@ -5,18 +5,43 @@
                 <%=setTitle%></b></h3><br><br>
     </div>
     <div>
+        <% if (studySetFalse.length === 0) {%>
+        <p>You have finished this study set!</p>
+        <%} else {%>
         <p>
-            <%=card.sideA%>
+            <%=studySetFalse[0].sideA%>
         </p>
-
     </div>
-    <form action="/study-session" method="post">
+    <!--<form action="/study-session" method="post">
         <input type="hidden" name="setId" value="<%=setId%>">
-        <input type="hidden" name="cardId" value="<%=card.id%>">
+        <input type="hidden" name="cardId" value="<%=studySetFalse[0].id%>">
         <input type="text" name="submitAnswer" placeholder="Your answer">
-        <input class="button" type="submit" value="Submit" />
+        <input class="button" id="submitButton" type="submit" value="Submit" />
     </form>
+    -->
+    <form>
+        <input type="hidden" name="setId" value="<%=setId%>">
+        <input type="hidden" name="cardId" value="<%=studySetFalse[0].id%>">
+        <input type="text" name="submitAnswer" placeholder="Your answer">
+        <input class="button" id="submitButton" type="submit" value="Submit" />
+    </form>
+    <%}%>
 </center>
+
+<script>
+    $(document).ready(function() {
+        let i = 1;
+        $('#submitButton').click(function() {
+            i++;
+            $('#dynamic-field').append('<tr id="row' + i + '"><td><input type="text" name="row_' + i + 'a" id="row_' + i + 'a" class="form-control" placeholder="Flashcard side A" ></td><td><input type="text" name="row_' + i + 'b" id="row_' + i + 'b" class="form-control" placeholder="Flashcard side B" ></td><td><button button type="button" name="remove" id="' + i + '" class="btn-danger btn_remove">Remove</button></td></tr>')
+        })
+        $(document).on('click', '.btn_remove', function() {
+            let button_id = $(this).attr("id");
+            $('#row' + button_id + '').remove();
+        })
+    })
+
+</script>
 
 
 <% include ./partials/footer%>

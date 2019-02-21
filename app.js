@@ -53,8 +53,8 @@ app.route('/create-list')
             let object = {
                 "id": evenArray.indexOf(i) + 1,
                 "sideA": i,
-                "sideB": unevenArray[evenArray.indexOf(i)]
-            }
+                "sideB": unevenArray[evenArray.indexOf(i)],
+                "status": false            }
             studySet.push(object);
         })
 
@@ -102,14 +102,17 @@ app.route('/study-session')
                 id: req.query.id
             }
         }).then((retrievedList) => {
+            console.log('debugging this thing', retrievedList.dataValues.content) // the updated value hasn't come through at this point!!! the rendering is happening only after finding the list! that's the problem. 
             let studySet = shuffle(retrievedList.dataValues.content)
-            let card = ''
+            let studySetFalse = []
             studySet.forEach((i) => {
-                // include if statement to exclude studied cards
-                card = i
+                if (i.status === false) {
+                    studySetFalse.push(i)
+                }
             })
+            // make the code when set is finished server-side?
             res.render('study-session.ejs', {
-                card: card,
+                studySetFalse: studySetFalse,
                 setTitle: retrievedList.dataValues.title,
                 setId: retrievedList.dataValues.id
             })
@@ -127,39 +130,21 @@ app.route('/study-session')
             studySet.forEach((i) => {
                 if (i.id == req.body.cardId) { // why does this only work with == and not ===
                     sideB = i.sideB
+                    if (req.body.submitAnswer === sideB) {
+                        console.log('good job!')
+                        i.status = true
+                        retrievedList.update({
+                            content: studySet
+                        })
+                    } else {
+                        console.log('wrong answer!')
+                    }
                 }
             })
-            if (req.body.submitAnswer === sideB) {
-                console.log('good job!')
-                // update card's status in database  
-            } else {
-                console.log('wrong answer!')
-                // update card's status in database  
-            }
-            res.redirect(`/study-session/?id=${req.body.setId}`) // i feel this stuff can be done dynamically
+            console.log('gebeurt dit voor of na --good job!--?') // dit gebeurt na good job, maar vóór retrievedList.update!!
+            res.redirect(`/study-session/?id=${req.body.setId}`)
         })
     })
-
-
-/*      console.log(`this is with JSON.stringify`, JSON.stringify(req.body.currentCard) console.log(`this is with JSON.parse`, JSON.parse(req.body.currentCard[0]))
-
-    if list(req.body.submitAnswer === req.body.currentCard.pin) {
-        req.body.currentCard.pin
-        console.log('got itttttt')
-    }*/
-
-
-
-/*
-retrievedPost.map((relevantData) => {
-                    return {
-                        title: relevantData.dataValues.title,
-                        content: relevantData.dataValues.content,
-                        author: relevantData.dataValues.author,
-                        time: relevantData.dataValues.createdAt,
-                        id: relevantData.dataValues.id
-*/
-
 
 
 app.listen(port, () => (`Listening to port ${port}`));

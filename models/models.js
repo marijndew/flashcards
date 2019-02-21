@@ -12,11 +12,9 @@ const List = connection.define('list', {
     content: Sequelize.JSON,
 })
 
-connection.sync(
-        /*{
-                force: true
-            }*/
-    )
+connection.sync(/*{
+    force: true
+}*/)
     .then(() => console.log(`Lists table has been created!`))
     .catch((error) => console.log(`Couldn't create table due to this error: ${error}`));
 
