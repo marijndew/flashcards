@@ -54,10 +54,11 @@ app.route('/create-list')
                 "id": evenArray.indexOf(i) + 1,
                 "sideA": i,
                 "sideB": unevenArray[evenArray.indexOf(i)],
-                "status": false            }
+                /*
+                                "status": false*/
+            }
             studySet.push(object);
         })
-
         List.create({
                 title: req.body.title,
                 content: studySet
@@ -69,7 +70,7 @@ app.route('/create-list')
                 console.log(`Something went wrong when saving your study set: ${error}`);
                 res.redirect('/create-list')
             })
-    });
+    })
 
 app.route('/select-list')
     .get((req, res) => {
@@ -102,49 +103,53 @@ app.route('/study-session')
                 id: req.query.id
             }
         }).then((retrievedList) => {
-            console.log('debugging this thing', retrievedList.dataValues.content) // the updated value hasn't come through at this point!!! the rendering is happening only after finding the list! that's the problem. 
+            /*
+                        console.log('debugging this thing', retrievedList.dataValues.content) // the updated value hasn't come through at this point!!! the rendering is happening only after finding the list! that's the problem. 
+            */
             let studySet = shuffle(retrievedList.dataValues.content)
-            let studySetFalse = []
+            /*let studySetFalse = []
             studySet.forEach((i) => {
                 if (i.status === false) {
-                    studySetFalse.push(i)
-                }
-            })
-            // make the code when set is finished server-side?
-            res.render('study-session.ejs', {
-                studySetFalse: studySetFalse,
-                setTitle: retrievedList.dataValues.title,
-                setId: retrievedList.dataValues.id
-            })
+                    studySetFalse.push(i)}*/
+        })
+        // make the code when set is finished server-side?
+        res.render('study-session.ejs', {
+            /*
+                            studySetFalse: studySetFalse,
+            */
+            studySet: studySet,
+            setTitle: retrievedList.dataValues.title,
+            setId: retrievedList.dataValues.id
         })
     })
-    .post((req, res) => {
-        let studySet = []
-        let sideB = ""
-        List.findOne({
-            where: {
-                id: req.body.setId
+
+/*.post((req, res) => {
+    let studySet = []
+    let sideB = ""
+    List.findOne({
+        where: {
+            id: req.body.setId
+        }
+    }).then((retrievedList) => {
+        studySet = retrievedList.dataValues.content
+        studySet.forEach((i) => {
+            if (i.id == req.body.cardId) { // why does this only work with == and not ===
+                sideB = i.sideB
+                if (req.body.submitAnswer === sideB) {
+                    console.log('good job!')
+                    i.status = true
+                    retrievedList.update({
+                        content: studySet
+                    })
+                } else {
+                    console.log('wrong answer!')
+                }
             }
-        }).then((retrievedList) => {
-            studySet = retrievedList.dataValues.content
-            studySet.forEach((i) => {
-                if (i.id == req.body.cardId) { // why does this only work with == and not ===
-                    sideB = i.sideB
-                    if (req.body.submitAnswer === sideB) {
-                        console.log('good job!')
-                        i.status = true
-                        retrievedList.update({
-                            content: studySet
-                        })
-                    } else {
-                        console.log('wrong answer!')
-                    }
-                }
-            })
-            console.log('gebeurt dit voor of na --good job!--?') // dit gebeurt na good job, maar vóór retrievedList.update!!
-            res.redirect(`/study-session/?id=${req.body.setId}`)
         })
+        console.log('gebeurt dit voor of na --good job!--?') // dit gebeurt na good job, maar vóór retrievedList.update!!
+        res.redirect(`/study-session/?id=${req.body.setId}`)
     })
+})*/
 
 
 app.listen(port, () => (`Listening to port ${port}`));
