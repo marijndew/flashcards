@@ -1,45 +1,68 @@
 <% include ./partials/header%>
-<center>
-    <div>
+<div class="container">
+    <br>
+    <br>
+    <div id="titleRow">
         <h3>Your current study set: <b>
                 <%=setTitle%></b></h3><br><br>
     </div>
-    <div>
-        <% if (studySetFalse.length === 0) {%>
-        <p>You have finished this study set!</p>
-        <%} else {%>
-        <p>
-            <%=studySetFalse[0].sideA%>
-        </p>
-    </div>
-    <!--<form action="/study-session" method="post">
-        <input type="hidden" name="setId" value="<%=setId%>">
-        <input type="hidden" name="cardId" value="<%=studySetFalse[0].id%>">
-        <input type="text" name="submitAnswer" placeholder="Your answer">
-        <input class="button" id="submitButton" type="submit" value="Submit" />
-    </form>
-    -->
-    <form>
-        <input type="hidden" name="setId" value="<%=setId%>">
-        <input type="hidden" name="cardId" value="<%=studySetFalse[0].id%>">
-        <input type="text" name="submitAnswer" placeholder="Your answer">
-        <input class="button" id="submitButton" type="submit" value="Submit" />
-    </form>
-    <%}%>
-</center>
+
+    <center>
+        <div id="card">
+        </div>
+        <form id="form">
+            <input type="text" name="answerField" id="answerField" placeholder="Your answer" required>
+            <button type="button" name="submitButton" id="submitButton" class="button">Submit</button>
+        </form><br>
+        <p id="feedback"></p><br>
+        <button type="button" name="nextButton" id="nextButton" class="button">Let's go!</button>
+    </center>
+</div>
 
 <script>
+    let studySet = <%-JSON.stringify(studySet)%>
+
+    function shuffleFunc(a) {
+        for (let i = a.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
+    }
+
+    let initialLength = studySet.length
+    let wrong = 0
     $(document).ready(function() {
-        let i = 1;
-        $('#submitButton').click(function() {
-            i++;
-            $('#dynamic-field').append('<tr id="row' + i + '"><td><input type="text" name="row_' + i + 'a" id="row_' + i + 'a" class="form-control" placeholder="Flashcard side A" ></td><td><input type="text" name="row_' + i + 'b" id="row_' + i + 'b" class="form-control" placeholder="Flashcard side B" ></td><td><button button type="button" name="remove" id="' + i + '" class="btn-danger btn_remove">Remove</button></td></tr>')
+        $('#form').hide();
+        $('#nextButton').click(function() {
+            $("#answerField").val(null);
+            $('#feedback').hide();
+            $('#nextButton').hide();
+            $('#form').show();
+            shuffleFunc(studySet)
+            let card = studySet[0]
+            if (studySet.length === 0) {
+                $('#card').text(`You have finished this study set! You had ${wrong} cards wrong. Total cards in this set: ${initialLength}`);
+                $('#form').hide();
+            } else {
+                $('#card').text(card.sideA);
+                $('#submitButton').click(function() {
+                    let currentCard = $('#card').text();
+                    if (currentCard === card.sideA) {
+                        let inputValue = $('#answerField').val().toLowerCase();
+                        if (card.sideB === inputValue) {
+                            $('#feedback').text('You got it right!').show();
+                            studySet.splice(0, 1)
+                        } else {
+                            $('#feedback').text('Wrong answer!').show();
+                            wrong++
+                        }
+                        $('#nextButton').text("Next").show()
+                    }
+                })
+            }
         })
-        $(document).on('click', '.btn_remove', function() {
-            let button_id = $(this).attr("id");
-            $('#row' + button_id + '').remove();
-        })
-    })
+    });
 
 </script>
 

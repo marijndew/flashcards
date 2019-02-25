@@ -9,12 +9,15 @@ const connection = new Sequelize('flashcards', process.env.POSTGRES_USER, proces
 //Defining the lists model
 const List = connection.define('list', {
     title: Sequelize.STRING,
+    description: Sequelize.TEXT,
     content: Sequelize.JSON,
 })
 
-connection.sync({
-    force: true
-})
+connection.sync(
+        /*{
+            force: true
+        }*/
+    )
     .then(() => console.log(`Lists table has been created!`))
     .catch((error) => console.log(`Couldn't create table due to this error: ${error}`));
 
