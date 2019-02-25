@@ -1,0 +1,16 @@
+body {
+    background-color: lightslategray;
+}
+
+.bird {
+    z-index: -1;
+    position: absolute;
+    right: 0;
+    max-width: 300px;
+    margin-top: -10px;
+    margin-right: 2%;
+    border: 10px solid #343a40;
+    border-radius: 500px;
+    -webkit-border-radius: 500px;
+    -moz-border-radius: 500px;
+}
