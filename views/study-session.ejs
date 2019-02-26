@@ -2,20 +2,33 @@
 <div class="container">
     <br>
     <br>
-    <div id="titleRow">
-        <h3>Your current study set: <b>
-                <%=setTitle%></b></h3><br><br>
+    <div id="titleRow" display="inline">
+        <h3>🤓 Your current study set:</h3>
+        <h3 style="color:#e69900">
+            <u>
+                <%=setTitle%></u>
+        </h3>
+        <p>Number of cards:
+            <%=studySet.length%>
+        </p><br>
     </div>
 
     <center>
-        <div id="card">
+        <div class="cardContainer">
+            <div class="card">
+                <div class="cardFront" id="cardFront">
+                    <h2 class="cardFrontVar" id="cardFrontVar"></h2>
+                    <form class="answerForm" id="answerForm">
+                        <input type="text" name="answerField" id="answerField" placeholder="Your answer" required>
+                        <button type="button" name="submitButton" id="submitButton" class="button">Submit</button>
+                    </form><br>
+                </div>
+                <div class="cardBack" id="cardBack">
+                    <h3 id="feedback" class="feedback"></h3><br>
+                    <button type="button" id="nextButton" class="button">Let's go!</button>
+                </div>
+            </div>
         </div>
-        <form id="form">
-            <input type="text" name="answerField" id="answerField" placeholder="Your answer" required>
-            <button type="button" name="submitButton" id="submitButton" class="button">Submit</button>
-        </form><br>
-        <p id="feedback"></p><br>
-        <button type="button" name="nextButton" id="nextButton" class="button">Let's go!</button>
     </center>
 </div>
 
@@ -29,25 +42,26 @@
         }
         return a;
     }
-
-    let initialLength = studySet.length
     let wrong = 0
+
     $(document).ready(function() {
-        $('#form').hide();
+        $('#cardFront').hide();
+        $('#cardBack').show();
         $('#nextButton').click(function() {
             $("#answerField").val(null);
-            $('#feedback').hide();
-            $('#nextButton').hide();
-            $('#form').show();
+            $('#cardBack').hide();
+            $('#cardFront').show();
             shuffleFunc(studySet)
             let card = studySet[0]
             if (studySet.length === 0) {
-                $('#card').text(`You have finished this study set! You had ${wrong} cards wrong. Total cards in this set: ${initialLength}`);
-                $('#form').hide();
+                $('#cardFrontVar').text(`You finished this study set! You had ${wrong} card(s) wrong.`);
+                $('#answerForm').hide();
             } else {
-                $('#card').text(card.sideA);
+                $('#cardFrontVar').text(card.sideA);
                 $('#submitButton').click(function() {
-                    let currentCard = $('#card').text();
+                    $('#cardFront').hide()
+                    $('#cardBack').show()
+                    let currentCard = $('#cardFrontVar').text();
                     if (currentCard === card.sideA) {
                         let inputValue = $('#answerField').val().toLowerCase();
                         if (card.sideB === inputValue) {

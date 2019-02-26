@@ -1,5 +1,15 @@
+/* global */
+@import url(https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700);
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
 body {
     background-color: lightslategray;
+    font-family: 'Roboto Slab', serif;
+    min-height: 400px
 }
 
 .bird {
@@ -9,8 +19,78 @@ body {
     max-width: 300px;
     margin-top: -10px;
     margin-right: 2%;
-    border: 10px solid #343a40;
+    border: 12px solid #343a40;
     border-radius: 500px;
     -webkit-border-radius: 500px;
     -moz-border-radius: 500px;
+}
+
+.footer {
+    margin-top: 10%;
+    padding: 1%;
+    color: white;
+    background-color: #343a40;
+    text-align: center;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 5%;
+    width: 100%;
+    overflow: auto;
+}
+
+.form-group {
+    margin-bottom: 10%;
+}
+
+/* study-session.ejs */
+.cardContainer {
+    background-color: transparent;
+    width: 48%;
+    height: 260px;
+    perspective: 1000px;
+}
+
+/*
+.cardContainer:hover .card {
+    transform: rotateY(180deg);
+}*/
+
+.card {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+}
+
+.cardFront {
+    position: absolute;
+    background-color: #F5F5F5;
+    width: 100%;
+    height: 100%;
+    color: black;
+    backface-visibility: hidden;
+}
+
+.cardFrontVar {
+    margin-top: 15%;
+}
+
+.answerForm {
+    margin-top: 5%;
+}
+
+.cardBack {
+    position: absolute;
+    background-color: #343a40;
+    width: 100%;
+    height: 100%;
+    color: white;
+    backface-visibility: hidden;
+}
+
+.feedback {
+    margin-top: 17%;
 }

@@ -81,7 +81,8 @@ app.route('/select-set')
             let allLists = retrievedList.map((relevantData) => {
                 return {
                     title: relevantData.dataValues.title,
-                    id: relevantData.dataValues.id
+                    id: relevantData.dataValues.id,
+                    description: relevantData.dataValues.description
                 }
             });
             res.render('select-set', {

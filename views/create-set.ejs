@@ -3,14 +3,15 @@
 <div class="container">
     <br>
     <br>
-    <h3>Create your own study set!</h3><br>
+    <h2 style="color:#e69900">🚀 <u>Create your own study set!</u>
+    </h2><br>
     <div class="form-group">
         <form id="list-creator" action="/create-set" method="post" autocomplete="off">
-            <label><b>Set name:</b></label><br>
+            <label><b>STEP 1 | Set name:</b></label><br>
             <input type="text" name="title" placeholder="Set a name for your study set" size="40" required><br><br>
-            <label><b>Description (optional):</b></label><br>
+            <label><b>STEP 2 | Description (optional):</b></label><br>
             <textarea name="description" placeholder="Enter description or instructions here" rows="4" cols="40"></textarea><br><br>
-            <label><b>Add flashcards:</b></label>
+            <label><b>STEP 3 | Add flashcards:</b></label>
             <table class="table" id="dynamic-field">
                 <tr>
                     <td>1.</td>
@@ -23,6 +24,7 @@
         </form>
     </div>
 </div>
+
 <script>
     $(document).ready(function() {
         let i = 1;

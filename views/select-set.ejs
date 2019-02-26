@@ -2,12 +2,38 @@
 <div class="container">
     <br>
     <br>
-    <h3>Select your study set:</h3><br>
-    <% allLists.forEach((i) => { %>
-    <form action="/study-session" method="get">
-        <input class="button" type="submit" value="<%=i.title%>" />
-        <input type="hidden" name="id" value="<%=i.id%>">
-    </form>
-    <%})%>
+    <h2 style="color:#e69900">🔭 <u>Select your study set:</u></h2><br>
+    <table class="table" style="max-width:80%">
+        <tr>
+            <td>
+                <b>#</b>
+            </td>
+            <td>
+                <b>Study set</b>
+            </td>
+            <td>
+                <b>Description</b>
+            </td>
+        </tr>
+        <% allLists.forEach((i) => { %>
+        <tr>
+            <td>
+                <%= allLists.indexOf(i) + 1 %>
+            </td>
+            <td>
+                <%=i.title%>
+            </td>
+            <td>
+                <%=i.description%>
+            </td>
+            <td>
+                <form action="/study-session" method="get">
+                    <input class="button" type="submit" value="Select" />
+                    <input type="hidden" name="id" value="<%=i.id%>">
+                </form>
+            </td>
+        </tr>
+        <%})%>
+    </table>
 </div>
 <% include ./partials/footer%>
