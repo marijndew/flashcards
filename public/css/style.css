@@ -7,9 +7,23 @@ html {
 }
 
 body {
-    background-color: lightslategray;
+    background: rgb(52, 58, 64);
+    background: linear-gradient(331deg, rgba(52, 58, 64, 1) 11%, rgba(119, 153, 145, 1) 77%, rgba(119, 152, 153, 1) 80%);
     font-family: 'Roboto Slab', serif;
     min-height: 400px
+}
+
+.transparant-text-box {
+    position: absolute;
+    min-width: 300px;
+    max-width: 50%;
+    top: 95px;
+    left: 45px;
+    right: 0%;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 40px;
+    text-align: center;
 }
 
 .bird {
@@ -27,14 +41,14 @@ body {
 
 .footer {
     margin-top: 10%;
-    padding: 1%;
+    padding: 10px;
     color: white;
     background-color: #343a40;
     text-align: center;
     position: absolute;
     left: 0;
     bottom: 0;
-    height: 5%;
+    height: 8%;
     width: 100%;
     overflow: auto;
 }
@@ -49,10 +63,7 @@ body {
     width: 48%;
     height: 260px;
     perspective: 1000px;
-}
-
-/*
-.cardContainer:hover .card {
+}/*.cardContainer:hover .card {
     transform: rotateY(180deg);
 }*/
 

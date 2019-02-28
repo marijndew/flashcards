@@ -22,6 +22,10 @@ app.use(express.urlencoded({
 
 // placeholder for cookies and sessions
 
+app.get('/', (req, res) => {
+    res.render('index')
+});
+
 app.route('/sign-up')
 //.get => 'sign-up.ejs' & .post => 'index.ejs'
 
@@ -54,8 +58,8 @@ app.route('/create-set')
         evenArray.forEach((i) => {
             let object = {
                 "id": evenArray.indexOf(i) + 1,
-                "sideA": i,
-                "sideB": unevenArray[evenArray.indexOf(i)],
+                "sideA": i.trim(),
+                "sideB": unevenArray[evenArray.indexOf(i)].trim(),
 
             }
             studySet.push(object);

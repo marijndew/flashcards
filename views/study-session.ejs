@@ -3,10 +3,10 @@
     <br>
     <br>
     <div id="titleRow" display="inline">
-        <h3>🤓 Your current study set:</h3>
-        <h3 style="color:#e69900">
-            <u>
-                <%=setTitle%></u>
+        <h3>🤓 Your current study set:
+            <span style="color:#e69900">
+                <u>
+                    <%=setTitle%></u></span>
         </h3>
         <p>Number of cards:
             <%=studySet.length%>
@@ -63,12 +63,12 @@
                     $('#cardBack').show()
                     let currentCard = $('#cardFrontVar').text();
                     if (currentCard === card.sideA) {
-                        let inputValue = $('#answerField').val().toLowerCase();
-                        if (card.sideB === inputValue) {
-                            $('#feedback').text('You got it right!').show();
+                        let inputValue = $('#answerField').val().trim().toLowerCase();
+                        if (card.sideB.toLowerCase() === inputValue) {
+                            $('#feedback').text('✅ You got it right!').show();
                             studySet.splice(0, 1)
                         } else {
-                            $('#feedback').text('Wrong answer!').show();
+                            $('#feedback').text('❌ Wrong answer!').show();
                             wrong++
                         }
                         $('#nextButton').text("Next").show()
