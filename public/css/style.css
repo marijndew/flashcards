@@ -63,9 +63,11 @@ body {
     width: 48%;
     height: 260px;
     perspective: 1000px;
-}/*.cardContainer:hover .card {
+}
+
+.cardContainer:hover .card {
     transform: rotateY(180deg);
-}*/
+}
 
 .card {
     position: relative;

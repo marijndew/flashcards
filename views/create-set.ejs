@@ -14,7 +14,7 @@
             <label><b>STEP 3 | Add flashcards:</b></label>
             <table class="table" id="dynamic-field">
                 <tr>
-                    <td>1.</td>
+                    <td id="number1">1.</td>
                     <td><input type="text" name="row_1a" id="row_1a" class="form-control" placeholder="Flashcard side A" required></td>
                     <td><input type="text" name="row_1b" id="row_1b" class="form-control" placeholder="Flashcard side B" required></td>
                     <td><button type="button" name="add" id="add" class="btn-dark">+ Add card</button></td>
@@ -27,15 +27,27 @@
 
 <script>
     $(document).ready(function() {
-        let i = 1;
+
         $('#add').click(function() {
+            let table = document.getElementById('dynamic-field');
+            let targetTDs = table.querySelectorAll('tr > td:first-child');
+            let i = targetTDs.length
             i++;
-            $('#dynamic-field').append('<tr id="row' + i + '"><td>' +
+            $('#dynamic-field').append('<tr id="row' + i + '"><td id="number' + i + '">' +
                 i + '.</td><td><input type="text" name="row_' + i + 'a" id="row_' + i + 'a" class="form-control" placeholder="Flashcard side A" required></td><td><input type="text" name="row_' + i + 'b" id="row_' + i + 'b" class="form-control" placeholder="Flashcard side B" required></td><td><button button type="button" name="remove" id="' + i + '" class="btn-dark btn_remove">- Remove</button></td></tr>')
         })
         $(document).on('click', '.btn_remove  ', function() {
             let button_id = $(this).attr("id");
             $('#row' + button_id + '').remove();
+            //below is to make sure the on-page counter sequence doesn't get messed up by deletion of rows
+            let table = document.getElementById('dynamic-field');
+            let targetTDs = table.querySelectorAll('tr > td:first-child');
+            for (let j = 0; j < targetTDs.length; j++) {
+                let td = targetTDs[j];
+                let numberId = td.id
+                $(`#${numberId}`).text(`${j + 1}.`);
+                $(`#${numberId}`).attr("id", `newId${j +1}`);
+            }
         })
     })
 
