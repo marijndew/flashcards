@@ -25,6 +25,7 @@
                 </div>
                 <div class="cardBack" id="cardBack">
                     <h3 id="feedback" class="feedback"></h3><br>
+                    <button type="button" id="answerPeek" class="button">Peek at the answer</button>
                     <button type="button" id="nextButton" class="button">Let's go!</button>
                 </div>
             </div>
@@ -43,24 +44,22 @@
         return a;
     }
     let wrong = 0
+    let peek = 0
 
     $(document).ready(function() {
-        $('#cardFront').hide();
-        $('#cardBack').show();
+        $('#answerPeek').hide();
         $('#nextButton').click(function() {
             $("#answerField").val(null);
-            $('#cardBack').hide();
-            $('#cardFront').show();
+            $(".cardContainer").addClass("flip");
             shuffleFunc(studySet)
             let card = studySet[0]
             if (studySet.length === 0) {
-                $('#cardFrontVar').text(`You finished this study set! You had ${wrong} card(s) wrong.`);
+                $('#cardFrontVar').text(`You finished this study set! You had ${wrong} card(s) wrong. You peeked ${peek} time(s)`);
                 $('#answerForm').hide();
             } else {
                 $('#cardFrontVar').text(card.sideA);
                 $('#submitButton').click(function() {
-                    $('#cardFront').hide()
-                    $('#cardBack').show()
+                    $(".cardContainer").removeClass("flip");
                     let currentCard = $('#cardFrontVar').text();
                     if (currentCard === card.sideA) {
                         let inputValue = $('#answerField').val().trim().toLowerCase();
@@ -68,10 +67,17 @@
                             $('#feedback').text('✅ You got it right!').show();
                             studySet.splice(0, 1)
                         } else {
+                            $('#answerPeek').show();
                             $('#feedback').text('❌ Wrong answer!').show();
                             wrong++
+                            $('#answerPeek').click(function() {
+                                $('#feedback').text(`The answer was:` + '\n' +
+                                    `"${card.sideB.toLowerCase()}"`)
+                                peek++ //peek counter doesn't work properly
+                                $('#answerPeek').hide();
+                            })
+                            $('#nextButton').text("Next").show()
                         }
-                        $('#nextButton').text("Next").show()
                     }
                 })
             }
